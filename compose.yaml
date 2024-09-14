@@ -1,0 +1,10 @@
+services:
+  ergogen:
+    image: speedyoflipper/ergogen:latest
+    user: 1000:1000 
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    volumes:
+      - .:/config

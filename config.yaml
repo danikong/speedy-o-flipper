@@ -27,46 +27,46 @@ points:
           key:
             spread: 0
             splay: 10
-            column_net: P200
+            column_net: P006
         pinky:
           key:
             spread: u
             splay: 0
-            column_net: P201
+            column_net: P008
         ring:
           key:
             spread: u+1
             stagger: cy+1/4
             splay: -10
-            column_net: P202
+            column_net: P017
         middle:
           key:
             shift: [0, 0]
             spread: u
             stagger: cx/3
             splay: 0
-            column_net: P203
+            column_net: P020
         index:
           key:
             spread: u
             stagger: -cy/3
             splay: 0
-            column_net: P4
+            column_net: P022
         inner:
           key:
             splay: 0
             spread: u
             stagger: -cy/6
-            column_net: P5
+            column_net: P024
       rows:
         bottom:
-          row_net: P102
+          row_net: P100
         home:
-          row_net: P103
+          row_net: P011
         top:
           row_net: P104
         num:
-          row_net: P105
+          row_net: P106
       anchor:
         # Shift the PCB slightly to the right and down, otherwise it's weirdly positioned outside of the main sheet in KiCad
         shift: [100, -150]
@@ -82,7 +82,7 @@ points:
             width: 1.5u
           rows:
             home:
-              column_net: P26
+              column_net: P009
         second:
           key:
             spread: px*1.5-pad*2
@@ -90,9 +90,9 @@ points:
             splay: -10
           rows:
             home:
-              column_net: P27
+              column_net: P010
             upper:
-              column_net: P24
+              column_net: P111
         third:
           key:
             spread: px
@@ -100,9 +100,9 @@ points:
             splay: -10
           rows:
             home:
-              column_net: P28
+              column_net: P113
             upper:
-              column_net: P25
+              column_net: P115
 outlines:
   keys:
     - what: rectangle
@@ -118,7 +118,7 @@ outlines:
   board:
     - what: polygon
       operation: stack
-      fillet: 4
+      fillet: 3
       points:
         # Left
         - ref: matrix_outer_bottom
@@ -161,3 +161,60 @@ outlines:
     - name: board
     - operation: subtract
       name: keys
+pcbs:
+  speedy-o:
+    outlines:
+      main:
+        outline: board
+    footprints:
+      # Hotswap Choc keys.
+      choc_hotswap:
+        what: choc
+        where: true
+        params:
+          keycaps: true
+          reverse: true
+          hotswap: true
+          from: "{{column_net}}"
+          to: "{{colrow}}"
+      # Through Hole or SMD Diodes
+      diode:
+        what: diode
+        where: true
+        params:
+          from: "{{colrow}}"
+          to: "{{row_net}}"
+        adjust:
+          shift: [0, -5]
+          rotate: 180
+      # Face Down Arduino Pro Micro
+      nice_nano:
+        what: nice_nano
+        params:
+          orientation: "down"
+        where:
+          ref.aggregate.parts: [matrix_inner_top]
+          shift: [1.5*px,-padY]
+          rotate: -90
+      # OLED Screen
+      # oled:
+      #   what: oled
+      #   params:
+      #     side: "F"
+      #     SDA: P2
+      #     SCL: P3
+      #   where:
+      #     ref.aggregate.parts: [matrix_inner_top]
+      #     shift: [1.5*px,-py]
+      #     rotate: 90
+      # Four Pin Reset Button
+      reset:
+        what: button
+        params:
+          from: GND
+          to: RST
+        where:
+          ref.aggregate.parts: [matrix_inner_bottom]
+          shift: [2*px, 0]
+          rotate: -90
+      # ps3 controller replacement battery

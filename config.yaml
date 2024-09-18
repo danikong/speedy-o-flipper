@@ -122,45 +122,41 @@ outlines:
       points:
         # Left
         - ref: matrix_outer_bottom
-          shift: [-px, -py]
+          shift: [-padX, -padY]
 
         # Top
         - ref: matrix_outer_num
+          shift: [-padX, padY]
+        - ref: matrix_middle_num
           shift: [-px, padY]
         - ref: matrix_middle_num
-          shift: [-px, py]
-        - ref: matrix_middle_num
-          shift: [3*px, py]
+          shift: [2*px+padX, padY]
         # Rigth
         - ref: matrix_middle_num
-          shift: [3*px, -py]
+          shift: [2*px+padX, -padY]
         - ref: matrix_middle_num
-          shift: [5*px, -py]
+          shift: [5.3*cx, -padY]
         - ref: matrix_middle_num
-          shift: [5*px, -5*py]
+          shift: [5.3*cx, -4.4*py]
           # Bottom
         - ref: thumb_third_home
-          shift: [px, -py]
+          shift: [padX, -padY]
+        - ref: thumb_third_home
+          shift: [-pushX+pad, -padY]
         - ref: thumb_second_home
-          shift: [padX, -py]
+          shift: [pushX-pad, -padY]
+        - ref: thumb_second_home
+          shift: [-pushX, -padY]
         - ref: thumb_first_home
-          shift: [padX, -py]
-        - ref: matrix_middle_bottom
-          shift: [pushX, -2.5cy]
-        - ref: matrix_middle_bottom
-          shift: [-pushX, -2.5cy]
+          shift: [padX, -padY]
+        - ref: thumb_first_home
+          shift: [-padX, -padY]
+
         - ref: matrix_pinky_bottom
-          shift: [padX, -py]
-
+          shift: [padX, -padY]
+        # Connect to Left
         - ref: matrix_outer_bottom
-          shift: [-padX, -py]
-        
-        
-
-        # Connect to top
-
-        - ref: matrix_outer_bottom
-          shift: [-px, -py]
+          shift: [-padX, -padY]
   board_key_cutouts:
     - name: board
     - operation: subtract

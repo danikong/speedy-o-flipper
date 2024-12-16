@@ -173,40 +173,60 @@ pcbs:
         where: true
         params:
           keycaps: true
-          reverse: true
+          reverse: false
           hotswap: true
           from: "{{column_net}}"
           to: "{{colrow}}"
+      led:
+          what: sk6812mini
+          where: true
+          adjust:
+              shift: [0, -5]
+          params:
+              din: "{{led_in}}"
+              dout: "{{led_out}}"
+              cutout: true
       # Through Hole or SMD Diodes
+      # diode:
+      #   what: diode
+      #   where: true
+      #   params:
+      #     from: "{{colrow}}"
+      #     to: "{{row_net}}"
+      #   adjust:
+      #     shift: [0, -5]
+      #     rotate: 0
       diode:
-        what: diode
-        where: true
-        params:
-          from: "{{colrow}}"
-          to: "{{row_net}}"
-        adjust:
-          shift: [0, -5]
-          rotate: 180
-      # Face Down Arduino Pro Micro
+          what: sod-123w
+          where: true
+          params:
+              from: "{{colrow}}"
+              to: "{{row_net}}"
+          adjust:
+              shift: [ -7.9, 3 ]
+              rotate: 90
       nice_nano:
         what: nice_nano
         params:
-          orientation: "down"
+          orientation: up
         where:
-          ref.aggregate.parts: [matrix_inner_top]
-          shift: [1.5*px,-padY]
+          ref.aggregate.parts: [matrix_inner_num]
+          shift: [1.4*px,-1.05*py]
           rotate: -90
-      # OLED Screen
-      # oled:
-      #   what: oled
-      #   params:
-      #     side: "F"
-      #     SDA: P2
-      #     SCL: P3
-      #   where:
-      #     ref.aggregate.parts: [matrix_inner_top]
-      #     shift: [1.5*px,-py]
-      #     rotate: 90
+      trrs:
+        what: trrs_tight
+        where:
+          ref: matrix_inner_num
+          shift: [2.3*px, -0.1*py]
+          rotate: 0
+        params:
+          reverse: true
+          symmetric: true
+          # The naming of the nets on this footprint is different from the Corne schematics.
+          A: ""
+          B: VCC
+          C: GND
+          D: P0
       # Four Pin Reset Button
       reset:
         what: button
@@ -218,3 +238,56 @@ pcbs:
           shift: [2*px, 0]
           rotate: -90
       # ps3 controller replacement battery
+      jstph:
+        what: jstph
+        where:
+          ref: matrix_inner_top
+          shift: [0.71*px, 0.7*py]
+          rotate: 0
+        params:
+            side: B
+            pos: pos
+            neg: GND
+      # Mounting holes
+      hole_bottom_left:
+        what: mountinghole
+        where:
+          ref: matrix_ring_bottom
+          shift: [0, -2/3py]
+      hole_bottom_center:
+        what: mountinghole
+        where:
+          ref: matrix_inner_bottom
+          shift: [0.3*px, -2/3py]
+      hole_bottom_right:
+        what: mountinghole
+        where:
+          ref: matrix_inner_bottom
+          shift: [2.6*px, -0.4*py]
+      hole_top_left:
+        what: mountinghole
+        where:
+          ref: matrix_ring_num
+          shift: [-1.5*px, -2/3*pushY]
+      hole_top_center:
+        what: mountinghole
+        where:
+          ref: matrix_inner_num
+          shift: [0.4*px, 0.75*py]
+      hole_top_right:
+        what: mountinghole
+        where:
+          ref: matrix_inner_num
+          shift: [2.6*px, -0.4*py]
+      # Write "Caldera" on the PCB
+      front_text: &text
+        what: text
+        where: &textWhere
+            ref: matrix_middle_bottom
+            shift: [-pushX, -py]
+        params: &textParams
+            text: Speedy-O  
+            justify: left
+            h_size: 3.0
+            v_size: 3.0
+            thickness: 0.4

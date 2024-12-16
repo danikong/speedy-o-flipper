@@ -1,293 +1,341 @@
-units:
-  px: cx + 2
-  py: cy + 2
-
-
-  pushX: (cx / 2)
-  pushY: (cy / 2)
-
-  padX: pushX + 2
-  padY: pushY + 2
-
-  pad: 2
-
-  spacing: 0.75
-
-  controllerW: 18.5
-  controllerH: 33.5
-  belowControllerH: 17
-  caseBorder: 1.5
-  screwThreadRadius: 0.5
-  screwPCBRadius: 4.0
 points:
-  zones:
-    matrix:
-      columns:
-        outer:
-          key:
-            spread: 0
-            splay: 10
-            column_net: P006
-        pinky:
-          key:
-            spread: u
-            splay: 0
-            column_net: P008
-        ring:
-          key:
-            spread: u+1
-            stagger: cy+1/4
-            splay: -10
-            column_net: P017
-        middle:
-          key:
-            shift: [0, 0]
-            spread: u
-            stagger: cx/3
-            splay: 0
-            column_net: P020
-        index:
-          key:
-            spread: u
-            stagger: -cy/3
-            splay: 0
-            column_net: P022
-        inner:
-          key:
-            splay: 0
-            spread: u
-            stagger: -cy/6
-            column_net: P024
-      rows:
-        bottom:
-          row_net: P100
-        home:
-          row_net: P011
-        top:
-          row_net: P104
-        num:
-          row_net: P106
-      anchor:
-        # Shift the PCB slightly to the right and down, otherwise it's weirdly positioned outside of the main sheet in KiCad
-        shift: [100, -150]
-    thumb:
-      anchor:
-        ref: matrix_inner_bottom
-        shift: [-u/2
-        ,-py-pad]
-      columns:
-        first:
-          key:
-            splay: -10
-            width: 1.5u
-          rows:
-            home:
-              column_net: P009
-        second:
-          key:
-            spread: px*1.5-pad*2
-            stagger: -pad
-            splay: -10
-          rows:
-            home:
-              column_net: P010
-            upper:
-              column_net: P111
-        third:
-          key:
-            spread: px
-            stagger: -pad
-            splay: -10
-          rows:
-            home:
-              column_net: P113
-            upper:
-              column_net: P115
+    key.padding: cy
+    zones:
+        main:
+            rows:
+                bottom.row_net: P2
+                home.row_net: P0
+                top.row_net: P1
+            columns:
+                outer:
+                    key:
+                        col_net: P7
+                        spread: cx
+                    rows:
+                        bottom:
+                            led_in: "rgb_{{name}}"
+                        home:
+                            led_in: "rgb_{{name}}"
+                            led_out: rgb_main_outer_bottom
+                        top:
+                            led_in: "rgb_{{name}}"
+                            led_out: rgb_main_outer_home
+                        num:
+                            led_in: "rgb_{{name}}"
+                            led_out: rgb_main_outer_top
+                pinky:
+                    key:
+                        col_net: P7
+                        spread: cx
+                    rows:
+                        bottom:
+                            led_in: "rgb_{{name}}"
+                            led_out: rgb_main_pinky_home
+                        home:
+                            led_in: "rgb_{{name}}"
+                            led_out: rgb_main_pinky_top
+                        top:
+                            led_in: "rgb_{{name}}"
+                            led_out: rgb_main_pinky_num
+                        num:
+                            led_in: "rgb_{{name}}"
+                            led_out: rgb_main_outer_num
+                ring:
+                    key:
+                        col_net: P6
+                        stagger: 4
+                        spread: cx
+                    rows:
+                        bottom:
+                            led_in: "rgb_{{name}}"
+                            led_out: rgb_main_pinky_bottom
+                        home:
+                            led_in: "rgb_{{name}}"
+                            led_out: rgb_main_ring_bottom
+                        top:
+                            led_in: "rgb_{{name}}"
+                            led_out: rgb_main_ring_home
+                        num:
+                            led_in: "rgb_{{name}}"
+                            led_out: rgb_main_ring_top
+                middle:
+                    key:
+                        col_net: P5
+                        stagger: 2
+                        spread: cx
+                    rows:
+                        bottom:
+                            led_in: "rgb_{{name}}"
+                            led_out: rgb_main_middle_home
+                        home:
+                            led_in: "rgb_{{name}}"
+                            led_out: rgb_main_middle_top
+                        top:
+                            led_in: "rgb_{{name}}"
+                            led_out: rgb_main_middle_num
+                        num:
+                            led_in: "rgb_{{name}}"
+                            led_out: rgb_main_ring_num
+                index:
+                    key:
+                        col_net: P4
+                        stagger: -2
+                        spread: cx
+                    rows:
+                        bottom:
+                            led_in: "rgb_{{name}}"
+                            led_out: rgb_thumb_home_home
+                        home:
+                            led_in: "rgb_{{name}}"
+                            led_out: rgb_main_index_bottom
+                        top:
+                            led_in: "rgb_{{name}}"
+                            led_out: rgb_main_index_home
+                        num:
+                            led_in: "rgb_{{name}}"
+                            led_out: rgb_main_index_top
+                inner:
+                    key:
+                        col_net: P3
+                        stagger: -2
+                        spread: cx
+                    rows:
+                        bottom:
+                            led_in: "rgb_{{name}}"
+                            led_out: rgb_main_inner_home
+                        home:
+                            led_in: "rgb_{{name}}"
+                            led_out: rgb_main_inner_top
+                        top:
+                            led_in: "rgb_{{name}}"
+                            led_out: rgb_main_inner_num
+                        num:
+                            led_in: "rgb_{{name}}"    
+                            led_out: rgb_main_index_num
+        thumb:
+            anchor:
+                ref: main_index_bottom
+                shift: [-0.5cx, -cy]
+            rows.home.row_net: P8
+            columns:
+                inner.key:
+                    col_net: P5
+                    led_in: "rgb_{{name}}"
+                    led_out: rgb_main_middle_bottom
+                    spread: cx
+                home.key:
+                    col_net: P4
+                    led_in: "rgb_{{name}}"
+                    led_out: rgb_thumb_inner_home
+                    spread: cx + 2
+                    rotate: -18
+                    stagger: -3.2
+                outer.key:
+                    col_net: P3
+                    led_in: P9
+                    led_out: rgb_main_inner_bottom
+                    spread: cx
+                    rotate: -36
+                    stagger: -9.2
 outlines:
-  keys:
-    - what: rectangle
-      where: true
-      size: [14, 14]
-      fillet: 0
+    _board_outline:
+        -   what: polygon
+            fillet: 2
+            points:
+                -   ref: thumb_outer_home
+                    shift: [0.6cx, 0.6cy]
+                -   ref: thumb_outer_home
+                    shift: [0.6cx, -0.6cy]
+                -   ref: thumb_outer_home
+                    shift: [-0.4cx, -0.6cy]
 
-  keys2:
-    - what: rectangle
-      where: true
-      size: [cx, cy]
-      fillet: 0
-  board:
-    - what: polygon
-      operation: stack
-      fillet: 3
-      points:
-        # Left
-        - ref: matrix_outer_bottom
-          shift: [-padX, -padY]
+                -   ref: thumb_home_home
+                    shift: [0.4cx, -0.6cy]
+                -   ref: thumb_home_home
+                    shift: [-0.4cx, -0.6cy]
 
-        # Top
-        - ref: matrix_outer_num
-          shift: [-padX, padY]
-        - ref: matrix_middle_num
-          shift: [-px, padY]
-        - ref: matrix_middle_num
-          shift: [2*px+padX, padY]
-        # Rigth
-        - ref: matrix_middle_num
-          shift: [2*px+padX, -padY]
-        - ref: matrix_middle_num
-          shift: [5.3*cx, -padY]
-        - ref: matrix_middle_num
-          shift: [5.3*cx, -4.4*py]
-          # Bottom
-        - ref: thumb_third_home
-          shift: [padX, -padY]
-        - ref: thumb_third_home
-          shift: [-pushX+pad, -padY]
-        - ref: thumb_second_home
-          shift: [pushX-pad, -padY]
-        - ref: thumb_second_home
-          shift: [-pushX, -padY]
-        - ref: thumb_first_home
-          shift: [padX, -padY]
-        - ref: thumb_first_home
-          shift: [-padX, -padY]
+                -   ref: thumb_inner_home
+                    shift: [0.4cx, -0.6cy]
+                -   ref: thumb_inner_home
+                    shift: [-0.6cx, -0.6cy]
 
-        - ref: matrix_pinky_bottom
-          shift: [padX, -padY]
-        # Connect to Left
-        - ref: matrix_outer_bottom
-          shift: [-padX, -padY]
-  board_key_cutouts:
-    - name: board
-    - operation: subtract
-      name: keys
-pcbs:
-  speedy-o:
+                -   ref: main_outer_bottom
+                    shift: [1.6cx, -0.6cy]
+                -   ref: main_outer_bottom
+                    shift: [0.6cx, -0.6cy]
+                -   ref: main_outer_bottom
+                    shift: [-0.6cx, -0.6cy]
+
+                -   ref: main_outer_num
+                    shift: [-0.6cx, 0.6cy]
+                -   ref: main_outer_num
+                    shift: [0.4cx, 0.6cy]
+
+                -   ref: main_ring_num
+                    shift: [-0.5cx, 0.6cy]
+                -   ref: main_ring_num
+                    shift: [0.4cx, 0.6cy]
+
+                -   ref: main_middle_num
+                    shift: [-0.4cx, 0.61cy]
+                -   ref: main_middle_num
+                    shift: [0.4cx, 0.6cy]
+
+                -   ref: main_index_num
+                    shift: [-0.4cx, 0.6cy]
+                -   ref: main_index_num
+                    shift: [0.5cx, 0.6cy]
+
+                -   ref: main_inner_num
+                    shift: [-0.4cx, 0.6cy]
+                -   ref: main_inner_num
+                    shift: [0.5cx, 0.6cy]
+
+                -   ref: main_inner_num
+                    shift: [0.6cx, 0.4cy]
+                -   ref: main_inner_num
+                    shift: [1.8cx, 0.4cy]
+
+                -   ref: main_inner_bottom
+                    shift: [1.8cx, -0.6cy]
+    _keycap_outlines:
+        -   what: rectangle
+            fillet: 2
+            where: true
+            size: [1cx - 0.5, 1cy - 0.5] # Choc keycaps are 17.5 x 16.5
+    preview:
+        -   what: outline
+            name: _board_outline
+            operation: stack
+        -   what: outline
+            name: _keycap_outlines
+            operation: stack
+cases.josukey:
+    -   what: outline
+        name: _board_outline
+        extrude: 3
+        operation: subtract
+    -   what: outline
+        name: _keycap_outlines
+        extrude: 6
+        operation: add
+pcbs.josukey:
     outlines:
-      main:
-        outline: board
+        main.outline: _board_outline
+        keycaps:
+            outline: _keycap_outlines
+            layer: Eco1.User
     footprints:
-      # Hotswap Choc keys.
-      choc_hotswap:
-        what: choc
-        where: true
-        params:
-          keycaps: true
-          reverse: false
-          hotswap: true
-          from: "{{column_net}}"
-          to: "{{colrow}}"
-      led:
-          what: sk6812mini
-          where: true
-          adjust:
-              shift: [0, -5]
-          params:
-              din: "{{led_in}}"
-              dout: "{{led_out}}"
-              cutout: true
-      # Through Hole or SMD Diodes
-      # diode:
-      #   what: diode
-      #   where: true
-      #   params:
-      #     from: "{{colrow}}"
-      #     to: "{{row_net}}"
-      #   adjust:
-      #     shift: [0, -5]
-      #     rotate: 0
-      diode:
-          what: sod-123w
-          where: true
-          params:
-              from: "{{colrow}}"
-              to: "{{row_net}}"
-          adjust:
-              shift: [ -7.9, 3 ]
-              rotate: 90
-      nice_nano:
-        what: nice_nano
-        params:
-          orientation: up
-        where:
-          ref.aggregate.parts: [matrix_inner_num]
-          shift: [1.4*px,-1.05*py]
-          rotate: -90
-      trrs:
-        what: trrs_tight
-        where:
-          ref: matrix_inner_num
-          shift: [2.3*px, -0.1*py]
-          rotate: 0
-        params:
-          reverse: true
-          symmetric: true
-          # The naming of the nets on this footprint is different from the Corne schematics.
-          A: ""
-          B: VCC
-          C: GND
-          D: P0
-      # Four Pin Reset Button
-      reset:
-        what: button
-        params:
-          from: GND
-          to: RST
-        where:
-          ref.aggregate.parts: [matrix_inner_bottom]
-          shift: [2*px, 0]
-          rotate: -90
-      # ps3 controller replacement battery
-      jstph:
-        what: jstph
-        where:
-          ref: matrix_inner_top
-          shift: [0.71*px, 0.7*py]
-          rotate: 0
-        params:
-            side: B
-            pos: pos
-            neg: GND
-      # Mounting holes
-      hole_bottom_left:
-        what: mountinghole
-        where:
-          ref: matrix_ring_bottom
-          shift: [0, -2/3py]
-      hole_bottom_center:
-        what: mountinghole
-        where:
-          ref: matrix_inner_bottom
-          shift: [0.3*px, -2/3py]
-      hole_bottom_right:
-        what: mountinghole
-        where:
-          ref: matrix_inner_bottom
-          shift: [2.6*px, -0.4*py]
-      hole_top_left:
-        what: mountinghole
-        where:
-          ref: matrix_ring_num
-          shift: [-1.5*px, -2/3*pushY]
-      hole_top_center:
-        what: mountinghole
-        where:
-          ref: matrix_inner_num
-          shift: [0.4*px, 0.75*py]
-      hole_top_right:
-        what: mountinghole
-        where:
-          ref: matrix_inner_num
-          shift: [2.6*px, -0.4*py]
-      # Write "Caldera" on the PCB
-      front_text: &text
-        what: text
-        where: &textWhere
-            ref: matrix_middle_bottom
-            shift: [-pushX, -py]
-        params: &textParams
-            text: Speedy-O  
-            justify: left
-            h_size: 3.0
-            v_size: 3.0
-            thickness: 0.4
+        led:
+            what: sk6812mini
+            where: true
+            adjust:
+                shift: [0, -5]
+            params:
+                din: "{{led_in}}"
+                dout: "{{led_out}}"
+                cutout: true
+        diode:
+            what: sod-123w
+            where: true
+            params:
+                from: "{{name}}"
+                to: "{{row_net}}"
+            adjust:
+                shift: [ -7.6, -1.6 ]
+                rotate: 90
+        choc:
+            what: choc
+            where: true
+            params:
+                keycaps: true
+                reverse: true
+                hotswap: true
+                from: "{{col_net}}"
+                to: "{{name}}"
+        promicro:
+            what: promicro_pretty
+            where:
+                ref: main_inner_home
+            adjust:
+                shift: [22, 6.5]
+                rotate: -90
+        jst-s2b-ph-kl:
+            what: jst-s2b-ph-kl
+            where:
+                ref: main_inner_bottom
+                shift: [21, -2]
+                rotate: 180
+            params:
+                neg: GND
+        pcm12:
+            what: pcm12
+            where:
+                ref: main_inner_bottom
+                shift: [30.5, 3]
+                rotate: 90
+            params:
+                from: pos
+                to: RAW
+        wuerth-434121025816:
+            what: wuerth-434121025816
+            where:
+                ref: main_inner_bottom
+                shift: [30, -6]
+                rotate: 90
+            params:
+                r1: RST
+                r2: GND
+        front_text: &text
+            what: text
+            where: &textWhere
+                ref: main_pinky_bottom
+                shift: [12, -7]
+            params: &textParams
+                text: Josukey\nA keyboard for Joey
+                justify: left
+        back_text:
+            <<: *text
+            where:
+                <<: *textWhere
+                shift: [27, -7]
+            params:
+                <<: *textParams
+                layer: B.SilkS
+                justify: left mirror
+        safeText:
+            <<: *text
+            what: keepout
+            params:
+                points:
+                    -   x: -0.5
+                        y: -2
+                    -   x: 15.5
+                        y: -2
+                    -   x: 15.5
+                        y: 2
+                    -   x: -0.5
+                        y: 2
+        peace: &icon
+            what: peace
+            where:
+                ref: main_inner_bottom
+                shift: [13, -6]
+            params:
+                scale: 2
+        love:
+            <<: *icon
+            what: love
+        safeIcon:
+            <<: *icon
+            what: keepout
+            params:
+                points:
+                    -   x: -0.5
+                        y: -0.5
+                    -   x: 13.25
+                        y: -0.5
+                    -   x: 13.25
+                        y: 13.25
+                    -   x: -0.5
+                        y: 13.25

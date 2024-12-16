@@ -1,0 +1,293 @@
+units:
+  px: cx + 2
+  py: cy + 2
+
+
+  pushX: (cx / 2)
+  pushY: (cy / 2)
+
+  padX: pushX + 2
+  padY: pushY + 2
+
+  pad: 2
+
+  spacing: 0.75
+
+  controllerW: 18.5
+  controllerH: 33.5
+  belowControllerH: 17
+  caseBorder: 1.5
+  screwThreadRadius: 0.5
+  screwPCBRadius: 4.0
+points:
+  zones:
+    matrix:
+      columns:
+        outer:
+          key:
+            spread: 0
+            splay: 10
+            column_net: P006
+        pinky:
+          key:
+            spread: u
+            splay: 0
+            column_net: P008
+        ring:
+          key:
+            spread: u+1
+            stagger: cy+1/4
+            splay: -10
+            column_net: P017
+        middle:
+          key:
+            shift: [0, 0]
+            spread: u
+            stagger: cx/3
+            splay: 0
+            column_net: P020
+        index:
+          key:
+            spread: u
+            stagger: -cy/3
+            splay: 0
+            column_net: P022
+        inner:
+          key:
+            splay: 0
+            spread: u
+            stagger: -cy/6
+            column_net: P024
+      rows:
+        bottom:
+          row_net: P100
+        home:
+          row_net: P011
+        top:
+          row_net: P104
+        num:
+          row_net: P106
+      anchor:
+        # Shift the PCB slightly to the right and down, otherwise it's weirdly positioned outside of the main sheet in KiCad
+        shift: [100, -150]
+    thumb:
+      anchor:
+        ref: matrix_inner_bottom
+        shift: [-u/2
+        ,-py-pad]
+      columns:
+        first:
+          key:
+            splay: -10
+            width: 1.5u
+          rows:
+            home:
+              column_net: P009
+        second:
+          key:
+            spread: px*1.5-pad*2
+            stagger: -pad
+            splay: -10
+          rows:
+            home:
+              column_net: P010
+            upper:
+              column_net: P111
+        third:
+          key:
+            spread: px
+            stagger: -pad
+            splay: -10
+          rows:
+            home:
+              column_net: P113
+            upper:
+              column_net: P115
+outlines:
+  keys:
+    - what: rectangle
+      where: true
+      size: [14, 14]
+      fillet: 0
+
+  keys2:
+    - what: rectangle
+      where: true
+      size: [cx, cy]
+      fillet: 0
+  board:
+    - what: polygon
+      operation: stack
+      fillet: 3
+      points:
+        # Left
+        - ref: matrix_outer_bottom
+          shift: [-padX, -padY]
+
+        # Top
+        - ref: matrix_outer_num
+          shift: [-padX, padY]
+        - ref: matrix_middle_num
+          shift: [-px, padY]
+        - ref: matrix_middle_num
+          shift: [2*px+padX, padY]
+        # Rigth
+        - ref: matrix_middle_num
+          shift: [2*px+padX, -padY]
+        - ref: matrix_middle_num
+          shift: [5.3*cx, -padY]
+        - ref: matrix_middle_num
+          shift: [5.3*cx, -4.4*py]
+          # Bottom
+        - ref: thumb_third_home
+          shift: [padX, -padY]
+        - ref: thumb_third_home
+          shift: [-pushX+pad, -padY]
+        - ref: thumb_second_home
+          shift: [pushX-pad, -padY]
+        - ref: thumb_second_home
+          shift: [-pushX, -padY]
+        - ref: thumb_first_home
+          shift: [padX, -padY]
+        - ref: thumb_first_home
+          shift: [-padX, -padY]
+
+        - ref: matrix_pinky_bottom
+          shift: [padX, -padY]
+        # Connect to Left
+        - ref: matrix_outer_bottom
+          shift: [-padX, -padY]
+  board_key_cutouts:
+    - name: board
+    - operation: subtract
+      name: keys
+pcbs:
+  speedy-o:
+    outlines:
+      main:
+        outline: board
+    footprints:
+      # Hotswap Choc keys.
+      choc_hotswap:
+        what: choc
+        where: true
+        params:
+          keycaps: true
+          reverse: false
+          hotswap: true
+          from: "{{column_net}}"
+          to: "{{colrow}}"
+      led:
+          what: sk6812mini
+          where: true
+          adjust:
+              shift: [0, -5]
+          params:
+              din: "{{led_in}}"
+              dout: "{{led_out}}"
+              cutout: true
+      # Through Hole or SMD Diodes
+      # diode:
+      #   what: diode
+      #   where: true
+      #   params:
+      #     from: "{{colrow}}"
+      #     to: "{{row_net}}"
+      #   adjust:
+      #     shift: [0, -5]
+      #     rotate: 0
+      diode:
+          what: sod-123w
+          where: true
+          params:
+              from: "{{colrow}}"
+              to: "{{row_net}}"
+          adjust:
+              shift: [ -7.9, 3 ]
+              rotate: 90
+      nice_nano:
+        what: nice_nano
+        params:
+          orientation: up
+        where:
+          ref.aggregate.parts: [matrix_inner_num]
+          shift: [1.4*px,-1.05*py]
+          rotate: -90
+      trrs:
+        what: trrs_tight
+        where:
+          ref: matrix_inner_num
+          shift: [2.3*px, -0.1*py]
+          rotate: 0
+        params:
+          reverse: true
+          symmetric: true
+          # The naming of the nets on this footprint is different from the Corne schematics.
+          A: ""
+          B: VCC
+          C: GND
+          D: P0
+      # Four Pin Reset Button
+      reset:
+        what: button
+        params:
+          from: GND
+          to: RST
+        where:
+          ref.aggregate.parts: [matrix_inner_bottom]
+          shift: [2*px, 0]
+          rotate: -90
+      # ps3 controller replacement battery
+      jstph:
+        what: jstph
+        where:
+          ref: matrix_inner_top
+          shift: [0.71*px, 0.7*py]
+          rotate: 0
+        params:
+            side: B
+            pos: pos
+            neg: GND
+      # Mounting holes
+      hole_bottom_left:
+        what: mountinghole
+        where:
+          ref: matrix_ring_bottom
+          shift: [0, -2/3py]
+      hole_bottom_center:
+        what: mountinghole
+        where:
+          ref: matrix_inner_bottom
+          shift: [0.3*px, -2/3py]
+      hole_bottom_right:
+        what: mountinghole
+        where:
+          ref: matrix_inner_bottom
+          shift: [2.6*px, -0.4*py]
+      hole_top_left:
+        what: mountinghole
+        where:
+          ref: matrix_ring_num
+          shift: [-1.5*px, -2/3*pushY]
+      hole_top_center:
+        what: mountinghole
+        where:
+          ref: matrix_inner_num
+          shift: [0.4*px, 0.75*py]
+      hole_top_right:
+        what: mountinghole
+        where:
+          ref: matrix_inner_num
+          shift: [2.6*px, -0.4*py]
+      # Write "Caldera" on the PCB
+      front_text: &text
+        what: text
+        where: &textWhere
+            ref: matrix_middle_bottom
+            shift: [-pushX, -py]
+        params: &textParams
+            text: Speedy-O  
+            justify: left
+            h_size: 3.0
+            v_size: 3.0
+            thickness: 0.4

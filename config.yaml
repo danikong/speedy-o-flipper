@@ -1,16 +1,33 @@
+units:
+  pad: 2
+
+  spacing: 0.75
+
+  controllerW: 18.5
+  controllerH: 33.5
+  belowControllerH: 17
+  caseBorder: 1.5
+  screwThreadRadius: 0.5
+  screwPCBRadius: 4.0
+
 points:
     key.padding: cy
     zones:
         main:
+            anchor:
+                # Shift the PCB slightly to the right and down, otherwise it's weirdly positioned outside of the main sheet in KiCad
+                shift: [100, -150]
             rows:
-                bottom.row_net: P2
-                home.row_net: P0
-                top.row_net: P1
+                bottom.row_net: P1
+                home.row_net: P2
+                top.row_net: P3
+                num.row_net: P4
             columns:
                 outer:
                     key:
-                        col_net: P7
+                        col_net: P10
                         spread: cx
+                        splay: 8
                     rows:
                         bottom:
                             led_in: "rgb_{{name}}"
@@ -25,7 +42,7 @@ points:
                             led_out: rgb_main_outer_top
                 pinky:
                     key:
-                        col_net: P7
+                        col_net: P9
                         spread: cx
                     rows:
                         bottom:
@@ -42,9 +59,10 @@ points:
                             led_out: rgb_main_outer_num
                 ring:
                     key:
-                        col_net: P6
-                        stagger: 4
-                        spread: cx
+                        col_net: P8
+                        stagger: cy-1
+                        spread: cx+1
+                        splay: -8
                     rows:
                         bottom:
                             led_in: "rgb_{{name}}"
@@ -60,7 +78,7 @@ points:
                             led_out: rgb_main_ring_top
                 middle:
                     key:
-                        col_net: P5
+                        col_net: P7
                         stagger: 2
                         spread: cx
                     rows:
@@ -78,7 +96,7 @@ points:
                             led_out: rgb_main_ring_num
                 index:
                     key:
-                        col_net: P4
+                        col_net: P6
                         stagger: -2
                         spread: cx
                     rows:
@@ -96,7 +114,7 @@ points:
                             led_out: rgb_main_index_top
                 inner:
                     key:
-                        col_net: P3
+                        col_net: P5
                         stagger: -2
                         spread: cx
                     rows:
@@ -114,9 +132,9 @@ points:
                             led_out: rgb_main_index_num
         thumb:
             anchor:
-                ref: main_index_bottom
-                shift: [-0.5cx, -cy]
-            rows.home.row_net: P8
+                ref: main_inner_bottom
+                shift: [0cx, -cy]
+            rows.home.row_net: P11
             columns:
                 inner.key:
                     col_net: P5
@@ -124,15 +142,15 @@ points:
                     led_out: rgb_main_middle_bottom
                     spread: cx
                 home.key:
-                    col_net: P4
+                    col_net: P6
                     led_in: "rgb_{{name}}"
                     led_out: rgb_thumb_inner_home
                     spread: cx + 2
                     rotate: -18
                     stagger: -3.2
                 outer.key:
-                    col_net: P3
-                    led_in: P9
+                    col_net: P7
+                    led_in: P12
                     led_out: rgb_main_inner_bottom
                     spread: cx
                     rotate: -36
@@ -159,6 +177,11 @@ outlines:
                 -   ref: thumb_inner_home
                     shift: [-0.6cx, -0.6cy]
 
+                -   ref: main_middle_bottom
+                    shift: [1.1cx, -1.5cy]
+                -   ref: main_middle_bottom
+                    shift: [-1cx, -1.5cy]
+
                 -   ref: main_outer_bottom
                     shift: [1.6cx, -0.6cy]
                 -   ref: main_outer_bottom
@@ -169,7 +192,7 @@ outlines:
                 -   ref: main_outer_num
                     shift: [-0.6cx, 0.6cy]
                 -   ref: main_outer_num
-                    shift: [0.4cx, 0.6cy]
+                    shift: [0.5cx, 0.6cy]
 
                 -   ref: main_ring_num
                     shift: [-0.5cx, 0.6cy]
@@ -194,10 +217,10 @@ outlines:
                 -   ref: main_inner_num
                     shift: [0.6cx, 0.4cy]
                 -   ref: main_inner_num
-                    shift: [1.8cx, 0.4cy]
+                    shift: [2cx, 0.4cy]
 
                 -   ref: main_inner_bottom
-                    shift: [1.8cx, -0.6cy]
+                    shift: [2cx, -0.9cy]
     _keycap_outlines:
         -   what: rectangle
             fillet: 2
@@ -210,7 +233,7 @@ outlines:
         -   what: outline
             name: _keycap_outlines
             operation: stack
-cases.josukey:
+cases.speedy-o:
     -   what: outline
         name: _board_outline
         extrude: 3
@@ -219,7 +242,7 @@ cases.josukey:
         name: _keycap_outlines
         extrude: 6
         operation: add
-pcbs.josukey:
+pcbs.speedy-o:
     outlines:
         main.outline: _board_outline
         keycaps:
@@ -253,19 +276,21 @@ pcbs.josukey:
                 hotswap: true
                 from: "{{col_net}}"
                 to: "{{name}}"
-        promicro:
+        promicro_pretty:
             what: promicro_pretty
             where:
-                ref: main_inner_home
+                ref: main_inner_top
             adjust:
-                shift: [22, 6.5]
-                rotate: -90
+                shift: [19, 7]
+            params:
+              reversable_pins: 13
+                # rotate: -90
         jst-s2b-ph-kl:
             what: jst-s2b-ph-kl
             where:
-                ref: main_inner_bottom
+                ref: main_inner_home
                 shift: [21, -2]
-                rotate: 180
+                rotate: 0
             params:
                 neg: GND
         pcm12:
@@ -277,65 +302,68 @@ pcbs.josukey:
             params:
                 from: pos
                 to: RAW
-        wuerth-434121025816:
-            what: wuerth-434121025816
-            where:
-                ref: main_inner_bottom
-                shift: [30, -6]
-                rotate: 90
+        reset:
+            what: button
             params:
-                r1: RST
-                r2: GND
+                from: GND
+                to: RST
+            where:
+                ref.aggregate.parts: [main_inner_bottom]
+                shift: [2*cx, 0]
+                rotate: -90
+        trrs:
+            what: trrs_tight
+            where:
+                ref: main_inner_num
+                shift: [1.86cx, 0.34cy]
+                rotate: 0
+            params:
+                reverse: true
+                symmetric: true
+                # The naming of the nets on this footprint is different from the Corne schematics.
+                A: ""
+                B: VCC
+                C: GND
+                D: P0
+        hole_top_left:
+            what: mountingholem2
+            where:
+                ref: main_ring_num
+                shift: [-0.8cx, 0]
+        hole_bottom_left:
+            what: mountingholem2
+            where:
+                ref: main_ring_bottom
+                shift: [0, -1cy]
+        hole_bottom_middle:
+            what: mountingholem2
+            where:
+                ref: main_index_bottom
+                shift: [0, -1cy]
+        hole_bottom_right:
+            what: mountingholem2
+            where:
+                ref: thumb_home_home
+                shift: [0, 1cy]
+        hole_top_right:
+            what: mountingholem2
+            where:
+                ref: main_inner_top
+                shift: [1.8cx, 0]
         front_text: &text
             what: text
             where: &textWhere
-                ref: main_pinky_bottom
-                shift: [12, -7]
+                ref: main_pinky_num
+                shift: [0, 0.6cy]
             params: &textParams
-                text: Josukey\nA keyboard for Joey
+                text: Speedy-O\nv0.1.0
                 justify: left
         back_text:
             <<: *text
             where:
                 <<: *textWhere
-                shift: [27, -7]
+                shift: [0.4cx, 0.6cy]
             params:
                 <<: *textParams
                 layer: B.SilkS
                 justify: left mirror
-        safeText:
-            <<: *text
-            what: keepout
-            params:
-                points:
-                    -   x: -0.5
-                        y: -2
-                    -   x: 15.5
-                        y: -2
-                    -   x: 15.5
-                        y: 2
-                    -   x: -0.5
-                        y: 2
-        peace: &icon
-            what: peace
-            where:
-                ref: main_inner_bottom
-                shift: [13, -6]
-            params:
-                scale: 2
-        love:
-            <<: *icon
-            what: love
-        safeIcon:
-            <<: *icon
-            what: keepout
-            params:
-                points:
-                    -   x: -0.5
-                        y: -0.5
-                    -   x: 13.25
-                        y: -0.5
-                    -   x: 13.25
-                        y: 13.25
-                    -   x: -0.5
-                        y: 13.25

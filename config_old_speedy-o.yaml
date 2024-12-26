@@ -286,7 +286,7 @@ pcbs:
             ref: matrix_middle_bottom
             shift: [-pushX, -py]
         params: &textParams
-            text: Speedy-O  
+            text: Speedy-O\nv0.1.0  
             justify: left
             h_size: 3.0
             v_size: 3.0

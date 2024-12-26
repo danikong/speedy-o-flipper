@@ -102,7 +102,7 @@ points:
                     rows:
                         bottom:
                             led_in: "rgb_{{name}}"
-                            led_out: rgb_thumb_home_home
+                            led_out: rgb_main_middle_bottom
                         home:
                             led_in: "rgb_{{name}}"
                             led_out: rgb_main_index_bottom
@@ -134,24 +134,24 @@ points:
             anchor:
                 ref: main_inner_bottom
                 shift: [0cx, -cy]
-            rows.home.row_net: P11
+            rows.home.row_net: P8
             columns:
-                inner.key:
+                outer.key:
                     col_net: P5
                     led_in: "rgb_{{name}}"
-                    led_out: rgb_main_middle_bottom
+                    led_out: rgb_main_inner_bottom
                     spread: cx
                 home.key:
-                    col_net: P6
+                    col_net: P4
                     led_in: "rgb_{{name}}"
                     led_out: rgb_thumb_inner_home
                     spread: cx + 2
                     rotate: -18
                     stagger: -3.2
-                outer.key:
-                    col_net: P7
-                    led_in: P12
-                    led_out: rgb_main_inner_bottom
+                inner.key:
+                    col_net: P3
+                    led_in: P9
+                    led_out: rgb_thumb_home_home
                     spread: cx
                     rotate: -36
                     stagger: -9.2
@@ -160,21 +160,21 @@ outlines:
         -   what: polygon
             fillet: 2
             points:
-                -   ref: thumb_outer_home
+                -   ref: thumb_inner_home
                     shift: [0.6cx, 0.6cy]
-                -   ref: thumb_outer_home
+                -   ref: thumb_inner_home
                     shift: [0.6cx, -0.6cy]
+                -   ref: thumb_inner_home
+                    shift: [-0.4cx, -0.6cy]
+
+                -   ref: thumb_home_home
+                    shift: [0.4cx, -0.6cy]
+                -   ref: thumb_home_home
+                    shift: [-0.4cx, -0.6cy]
+
                 -   ref: thumb_outer_home
-                    shift: [-0.4cx, -0.6cy]
-
-                -   ref: thumb_home_home
                     shift: [0.4cx, -0.6cy]
-                -   ref: thumb_home_home
-                    shift: [-0.4cx, -0.6cy]
-
-                -   ref: thumb_inner_home
-                    shift: [0.4cx, -0.6cy]
-                -   ref: thumb_inner_home
+                -   ref: thumb_outer_home
                     shift: [-0.6cx, -0.6cy]
 
                 -   ref: main_middle_bottom
@@ -217,10 +217,12 @@ outlines:
                 -   ref: main_inner_num
                     shift: [0.6cx, 0.4cy]
                 -   ref: main_inner_num
-                    shift: [2cx, 0.4cy]
-
+                    shift: [1.7cx, 0.4cy]
                 -   ref: main_inner_bottom
-                    shift: [2cx, -0.9cy]
+                    shift: [1.7cx, -0.2cy]
+
+                -   ref: thumb_inner_home
+                    shift: [0cx, 0.6cy]
     _keycap_outlines:
         -   what: rectangle
             fillet: 2
@@ -281,7 +283,7 @@ pcbs.speedy-o:
             where:
                 ref: main_inner_top
             adjust:
-                shift: [19, 7]
+                shift: [20, 7]
             params:
               reversable_pins: 13
                 # rotate: -90
@@ -289,15 +291,15 @@ pcbs.speedy-o:
             what: jst-s2b-ph-kl
             where:
                 ref: main_inner_home
-                shift: [21, -2]
-                rotate: 0
+                shift: [0.6cx, -2]
+                rotate: 180
             params:
                 neg: GND
         pcm12:
             what: pcm12
             where:
                 ref: main_inner_bottom
-                shift: [30.5, 3]
+                shift: [1.57cx, 3]
                 rotate: 90
             params:
                 from: pos
@@ -314,9 +316,9 @@ pcbs.speedy-o:
         trrs:
             what: trrs_tight
             where:
-                ref: main_inner_num
-                shift: [1.86cx, 0.34cy]
-                rotate: 0
+                ref: main_inner_home
+                shift: [1.65cx, -0.4cy]
+                rotate: -90
             params:
                 reverse: true
                 symmetric: true

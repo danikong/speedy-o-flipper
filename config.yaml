@@ -217,9 +217,9 @@ outlines:
                 -   ref: main_inner_num
                     shift: [0.6cx, 0.4cy]
                 -   ref: main_inner_num
-                    shift: [1.7cx, 0.4cy]
+                    shift: [2cx, 0.4cy]
                 -   ref: main_inner_bottom
-                    shift: [1.7cx, -0.2cy]
+                    shift: [2cx, -0.5cy]
 
                 -   ref: thumb_inner_home
                     shift: [0cx, 0.6cy]
@@ -283,23 +283,35 @@ pcbs.speedy-o:
             where:
                 ref: main_inner_top
             adjust:
-                shift: [20, 7]
+                shift: [25, 7]
             params:
               reversable_pins: 13
                 # rotate: -90
-        jst-s2b-ph-kl:
-            what: jst-s2b-ph-kl
+        battery_front:
+            what: jstph
             where:
-                ref: main_inner_home
-                shift: [0.6cx, -2]
-                rotate: 180
+                ref: main_inner_top
+                shift: [0.7cx, -0.3cy]
+                rotate: 0
             params:
+                side: F
+                pos: pos
+                neg: GND
+        battery_back:
+            what: jstph
+            where:
+                ref: main_inner_top
+                shift: [0.7cx, -0.3cy]
+                rotate: 0
+            params:
+                side: B
+                pos: pos
                 neg: GND
         pcm12:
             what: pcm12
             where:
                 ref: main_inner_bottom
-                shift: [1.57cx, 3]
+                shift: [33.6, 0]
                 rotate: 90
             params:
                 from: pos
@@ -312,7 +324,7 @@ pcbs.speedy-o:
                 to: RST
             where:
                 ref.aggregate.parts: [main_inner_bottom]
-                shift: [2*cx, 0]
+                shift: [cx, 0]
                 rotate: -90
         reset_back:
             what: button
@@ -322,13 +334,13 @@ pcbs.speedy-o:
                 to: RST
             where:
                 ref.aggregate.parts: [main_inner_bottom]
-                shift: [2.5*cx, 0]
+                shift: [cx, 0]
                 rotate: -90
         trrs:
             what: trrs_tight
             where:
                 ref: main_inner_home
-                shift: [1.65cx, -0.4cy]
+                shift: [35.5, -0.4cy]
                 rotate: -90
             params:
                 reverse: true
@@ -357,12 +369,12 @@ pcbs.speedy-o:
             what: mountingholem2
             where:
                 ref: thumb_home_home
-                shift: [0, 1cy]
+                shift: [0, 0.9cy]
         hole_top_right:
             what: mountingholem2
             where:
-                ref: main_inner_top
-                shift: [1.8cx, 0]
+                ref: main_inner_num
+                shift: [0.7cx, 0]
         front_text: &text
             what: text
             where: &textWhere

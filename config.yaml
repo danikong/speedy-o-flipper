@@ -304,14 +304,25 @@ pcbs.speedy-o:
             params:
                 from: pos
                 to: RAW
-        reset:
+        reset_front:
             what: button
             params:
+                side: F
                 from: GND
                 to: RST
             where:
                 ref.aggregate.parts: [main_inner_bottom]
                 shift: [2*cx, 0]
+                rotate: -90
+        reset_back:
+            what: button
+            params:
+                side: B
+                from: GND
+                to: RST
+            where:
+                ref.aggregate.parts: [main_inner_bottom]
+                shift: [2.5*cx, 0]
                 rotate: -90
         trrs:
             what: trrs_tight

@@ -30,15 +30,19 @@ points:
                         splay: 8
                     rows:
                         bottom:
+                            row_net: P16
                             led_in: "rgb_{{name}}"
                             led_out: rgb_main_outer_home
                         home:
+                            row_net: P6
                             led_in: "rgb_{{name}}"
                             led_out: rgb_main_pinky_home
                         top:
+                            row_net: P7
                             led_in: "rgb_{{name}}"
                             led_out: rgb_main_outer_num
                         num:
+                            row_net: P8
                             led_in: "rgb_{{name}}"
                             led_out: rgb_main_pinky_num
                 pinky:
@@ -47,15 +51,19 @@ points:
                         spread: cx
                     rows:
                         bottom:
+                            row_net: P16
                             led_in: "rgb_{{name}}"
                             led_out: rgb_main_outer_bottom
                         home:
+                            row_net: P6
                             led_in: "rgb_{{name}}"
                             led_out: rgb_main_ring_bottom
                         top:
+                            row_net: P7
                             led_in: "rgb_{{name}}"
                             led_out: rgb_main_outer_top
                         num:
+                            row_net: P8
                             led_in: "rgb_{{name}}"
                             led_out: rgb_main_ring_top
                 ring:
@@ -150,7 +158,7 @@ points:
                     stagger: -3.2
                 inner.key:
                     col_net: P14
-                    led_in: P9
+                    led_in: P19
                     led_out: rgb_thumb_home_home
                     spread: cx
                     rotate: -36
@@ -245,21 +253,25 @@ cases.speedy-o:
         extrude: 6
         operation: add
 pcbs.speedy-o:
+    template: kicad8 # Required, since footprints are KiCad 8 only
     outlines:
         main.outline: _board_outline
-        keycaps:
+        keycaps_front:
             outline: _keycap_outlines
-            layer: Eco1.User
+            layer: F.SilkS
+        keycaps_back:
+            outline: _keycap_outlines
+            layer: B.SilkS
     footprints:
         led:
-            what: sk6812mini
+            what: led_sk6812mini-e
             where: true
             adjust:
                 shift: [0, -5]
             params:
-                din: "{{led_in}}"
-                dout: "{{led_out}}"
-                cutout: true
+                P2: "{{led_in}}"
+                P4: "{{led_out}}"
+                reversible: true
         diode:
             what: sod-123w
             where: true
@@ -351,27 +363,27 @@ pcbs.speedy-o:
                 C: GND
                 D: P10
         hole_top_left:
-            what: mountingholem2
+            what: mounting_hole_plated
             where:
                 ref: main_ring_num
                 shift: [-0.8cx, 0]
         hole_bottom_left:
-            what: mountingholem2
+            what: mounting_hole_plated
             where:
                 ref: main_ring_bottom
                 shift: [0, -1cy]
         hole_bottom_middle:
-            what: mountingholem2
+            what: mounting_hole_plated
             where:
                 ref: main_index_bottom
                 shift: [0, -1cy]
         hole_bottom_right:
-            what: mountingholem2
+            what: mounting_hole_plated
             where:
                 ref: thumb_home_home
                 shift: [0, 0.9cy]
         hole_top_right:
-            what: mountingholem2
+            what: mounting_hole_plated
             where:
                 ref: main_inner_num
                 shift: [0.7cx, 0]

@@ -1,0 +1,12 @@
+## Footprint report - date 2025-01-01T21:19:09+0100
+## Created by KiCad version 8.0.7-8.0.7-0~ubuntu24.04.1
+## Unit = mm, Angle = deg.
+
+$BeginDESCRIPTION
+
+$BOARD
+upper_left_corner 80.731788 65.431306
+lower_right_corner 229.965477 174.648018
+$EndBOARD
+
+$EndDESCRIPTION

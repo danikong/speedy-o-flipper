@@ -1,0 +1,40 @@
+## Footprint report - date 2025-01-01T21:03:46+0100
+## Created by KiCad version 8.0.7-8.0.7-0~ubuntu24.04.1
+## Unit = mm, Angle = deg.
+
+$BeginDESCRIPTION
+
+$BOARD
+upper_left_corner 80.731787 65.431306
+lower_right_corner 229.965463 174.648032
+$EndBOARD
+
+$MODULE G***
+footprint images:orange_bg-oig6
+attribut virtual
+position 156.150000 137.400000  orientation 0.00
+layer front
+$EndMODULE  G***
+
+$MODULE G***
+footprint images:orange_bg-oig6
+attribut virtual
+position 156.150000 137.400000  orientation 0.00
+layer front
+$EndMODULE  G***
+
+$MODULE G***
+footprint images:orange_bg-oig6
+attribut virtual
+position 156.150000 137.400000  orientation 180.00
+layer back
+$EndMODULE  G***
+
+$MODULE G***
+footprint images:orange_bg-oig6
+attribut virtual
+position 156.150000 137.400000  orientation 180.00
+layer back
+$EndMODULE  G***
+
+$EndDESCRIPTION
